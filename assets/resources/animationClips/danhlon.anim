@@ -1,0 +1,47 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "danhlon",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 4,
+  "sample": 4,
+  "speed": 10,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "38adf042-23f7-4dd2-b9b9-1bba8d1b0d00"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": null
+          },
+          {
+            "frame": 1.25,
+            "value": {
+              "__uuid__": "6c7a9175-dfae-47ed-892f-b71c3f356706"
+            }
+          },
+          {
+            "frame": 2.5,
+            "value": {
+              "__uuid__": "bf76d33d-40e8-4315-a63e-7a1e6b936887"
+            }
+          },
+          {
+            "frame": 3.75,
+            "value": {
+              "__uuid__": "d2c56d22-18e5-40e0-b75c-f1783ac756b3"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

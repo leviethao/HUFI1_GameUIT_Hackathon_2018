@@ -24,7 +24,7 @@ export default class NewClass extends cc.Component {
     // onLoad () {}
 
     start () {
-
+        this.node.getComponent(cc.Camera).zoomRatio = 1;
     }
 
     // update (dt) {}

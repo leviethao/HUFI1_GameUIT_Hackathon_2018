@@ -15,6 +15,7 @@ import SimpleEntity from "./SimpleEntity";
 import Player from "./Player";
 import GameSetting from "./GameSetting";
 import PlayerItem from "./PlayerItem";
+import {SpriteType} from "./CoupleEntity";
 
 
 @ccclass
@@ -57,12 +58,14 @@ export default class NewClass extends cc.Component {
 
     prevEntityPosY: number;
     entityList: cc.Node[] = [];
+    oldLevel: number = 0;
     level: number = 0;
     levelFactor: number = 0;
     score: number = 0;
     moveSpeedFactor: number = 0;
     isStarted: boolean = false;
     backgroundAudioID:number = 0;
+    isSpawnAble: boolean = true;
 
 
 
@@ -76,26 +79,36 @@ export default class NewClass extends cc.Component {
     }
 
     start () {
-        this.spawnEntity(this.node.height * 0.7);
+    this.spawnEntity(this.node.height * 0.7);
         this.enableTutorial();
     }
 
     update (dt) {
 
+        this.gainScore();
+
         if (this.prevEntityPosY - this.camera.y <= this.node.height / 2) {
-            this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
+            if (this.isSpawnAble) {
+                this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
+            }
         }
 
         this.levelUp();
+
+        if (this.level > this.oldLevel && this.level == 1) {
+            this.challenge1();
+            this.oldLevel = this.level;
+            this.isSpawnAble = false;
+        }
     }
 
-    spawnEntity (yPos: number) {
+    spawnEntity (yPos: number, entityType?: number) : cc.Node {
         let entityPrefab: cc.Prefab = null;
         let count = 2;
         let rand = Math.floor(Math.random() * count) + 1;
         let entityComponent: string = "";
 
-        switch (rand) {
+        switch (entityType? entityType : rand) {
             case 1: {
                 entityPrefab = this.simpleEntityPrefab;
                 entityComponent = "SimpleEntity";
@@ -118,14 +131,14 @@ export default class NewClass extends cc.Component {
         let maxY = 100;
         let minY = 50;
         let randY = Math.floor(Math.random() * maxY + minY);
-        let d1 = d1Needed + randY;
+        let d1 = d1Needed + randY + this.player.y;
 
 
         entity.position = new cc.Vec2(0, Math.max(yPos, d1));
         this.prevEntityPosY = entity.y;
         
         this.Ui.setLocalZOrder(entity.getLocalZOrder() + 1);
-        
+        return entity;
     }
 
     gameOver () {
@@ -221,8 +234,8 @@ export default class NewClass extends cc.Component {
     }
 
     gainScore () {
-        this.score++;
-        this.updateScoreLabel();
+        this.score = Math.floor(this.player.y / this.gameSetting.getComponent(GameSetting).scoreFactor);
+        this.updateScoreLabel();   
     }
 
     levelUp () {
@@ -233,7 +246,7 @@ export default class NewClass extends cc.Component {
     }
 
     updateScoreLabel () {
-        this.scoreLabel.string = this.score.toString();
+        this.scoreLabel.string = this.score.toString() + "km";
     }
 
     enableTutorial () {
@@ -246,5 +259,11 @@ export default class NewClass extends cc.Component {
         this.isStarted = true;
         this.tutorialNode.stopAllActions();
         this.tutorialNode.active = false;
+    }
+
+    challenge1 () {
+        let coupleEntity = this.spawnEntity(this.prevEntityPosY + this.node.height * 0.7, 2);
+        coupleEntity.getComponent(CoupleEntity).changeSprite(SpriteType.MotoBike);
+        coupleEntity.getComponent(CoupleEntity).isChallenge1Active = true;
     }
 }

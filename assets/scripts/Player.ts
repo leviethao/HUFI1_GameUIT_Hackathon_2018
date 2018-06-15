@@ -151,9 +151,9 @@ export default class NewClass extends cc.Component {
     onCollisionExit (other) {
         switch (other.tag) {
             case 3: { // score
-                 if (this.node.y > other.node.y) {
-                     this.canvas.node.getComponent(InGame).gainScore();
-                 }
+                //  if (this.node.y > other.node.y) {
+                //      this.canvas.node.getComponent(InGame).gainScore();
+                //  }
             } break;
         }
     }

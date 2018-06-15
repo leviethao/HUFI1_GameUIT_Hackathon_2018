@@ -30,6 +30,9 @@ export default class NewClass extends cc.Component {
 
     @property
     moveSpeedFactor: number = 0;
+
+    @property
+    scoreFactor: number = 0;
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}

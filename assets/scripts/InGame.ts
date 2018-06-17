@@ -95,7 +95,7 @@ export default class NewClass extends cc.Component {
 
         this.levelUp();
 
-        if (this.level > this.oldLevel && this.level == 1) {
+        if (this.level > this.oldLevel && this.level == 5) {
             this.challenge1();
             this.oldLevel = this.level;
             this.isSpawnAble = false;
@@ -246,7 +246,7 @@ export default class NewClass extends cc.Component {
     }
 
     updateScoreLabel () {
-        this.scoreLabel.string = this.score.toString() + "km";
+        this.scoreLabel.string = this.score.toString() + "m";
     }
 
     enableTutorial () {

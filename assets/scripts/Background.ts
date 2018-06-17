@@ -76,11 +76,11 @@ export default class NewClass extends cc.Component {
             
             //this.changeBackground(this.item1);
             if (this.canvas.node.getComponent(InGame).level > this.oldLevel) {
-                if (this.canvas.node.getComponent(InGame).level == 5) {
+                if (this.canvas.node.getComponent(InGame).level == 3) {
                     this.isChallengeHemActive = true;
                 }
 
-                if (this.canvas.node.getComponent(InGame).level % 3 == 0) {
+                if (this.canvas.node.getComponent(InGame).level % 5 == 0) {
                     this.isChallengeNgaTuActive = true;
                 }
 
@@ -153,30 +153,15 @@ export default class NewClass extends cc.Component {
     challengeNgaTu () {
         
         this.changeBackground(this.ngaTu);
-        let entity = this.canvas.node.getComponent(InGame).spawnEntity(this.items[1].y, 2);
-        entity.getComponent(CoupleEntity).changeSprite(SpriteType.Taxi);
-        entity.getComponent(CoupleEntity).leftItem.rotation = -90;
-        entity.getComponent(CoupleEntity).rightItem.rotation = 90;
+        // let entity = this.canvas.node.getComponent(InGame).spawnEntity(this.items[1].y, 2);
+        // entity.getComponent(CoupleEntity).changeSprite(SpriteType.Taxi);
+        // entity.getComponent(CoupleEntity).leftItem.rotation = -90;
+        // entity.getComponent(CoupleEntity).rightItem.rotation = 90;
         
         this.isChallengeNgaTuActive = false;
     }
 
     challengeHem () {
-        // this.canvas.getComponent(InGame).isSpawnAble = false;
-        // if (this.items[0].name == this.cuoiHem.name) {
-        //     this.isChallengeHemActive = false;
-        //     this.canvas.node.getComponent(InGame).spawnEntity(this.canvas.node.getComponent(InGame).player.y + this.canvas.node.height, 1);
-        //     this.canvas.getComponent(InGame).isSpawnAble = true; console.log("HET HEM");
-        //     return;
-        // } else if (this.items[0].name == this.trongHem.name) {
-        //     this.changeBackground(this.cuoiHem); console.log("CUOI HEM");
-        //     this.cuoiHemPoint = this.items[1].y - DAU_HEM_DISTANCE;
-        // } else if (this.items[0].name == this.dauHem.name) {
-        //     this.changeBackground(this.trongHem); console.log("TRONG HEM");
-        // } else {
-        //     this.changeBackground(this.dauHem); console.log("DAU HEM");
-        //     this.dauHemPoint = this.items[1].y + DAU_HEM_DISTANCE;
-        // }
 
         this.canvas.getComponent(InGame).isSpawnAble = false;
         if (this.challengeHemCount == 3) {

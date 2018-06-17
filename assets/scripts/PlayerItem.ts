@@ -39,24 +39,24 @@ export default class NewClass extends cc.Component {
 
     // update (dt) {}
 
-    // onCollisionEnter (other, self) {
-    //     switch (other.tag) {
-    //         case 0: { //left player
-    //             //this.canvas.node.getComponent(InGame).gameOver();
-    //             //cc.audioEngine.play(this.sound, false, 1);
-    //         } break;
-    //         case 1: {//right player
-    //             this.flag = true;
-    //             cc.audioEngine.play(this.sound, false, 1);
-    //             let animState = this.node.parent.getChildByName("anim").active = true;
-    //             this.node.parent.getComponent(Player).moveSpeed = 0;
-    //             this.canvas.node.getComponent(InGame).gameOver();
-    //         } break;
-    //         case 2: { //entity
-    //             cc.audioEngine.play(this.hug, false, 1);
-    //             this.node.parent.getComponent(Player).moveSpeed = 0;
-    //             this.canvas.node.getComponent(InGame).gameOver();
-    //         } break;
-    //     }
-    // }
+    onCollisionEnter (other, self) {
+        switch (other.tag) {
+            case 0: { //left player
+                //this.canvas.node.getComponent(InGame).gameOver();
+                //cc.audioEngine.play(this.sound, false, 1);
+            } break;
+            case 1: {//right player
+                this.flag = true;
+                cc.audioEngine.play(this.sound, false, 1);
+                let animState = this.node.parent.getChildByName("anim").active = true;
+                this.node.parent.getComponent(Player).moveSpeed = 0;
+                this.canvas.node.getComponent(InGame).gameOver();
+            } break;
+            case 2: { //entity
+                cc.audioEngine.play(this.hug, false, 1);
+                this.node.parent.getComponent(Player).moveSpeed = 0;
+                this.canvas.node.getComponent(InGame).gameOver();
+            } break;
+        }
+    }
 }

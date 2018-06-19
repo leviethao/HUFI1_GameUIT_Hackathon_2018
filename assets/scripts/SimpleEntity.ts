@@ -11,6 +11,8 @@
 const {ccclass, property} = cc._decorator;
 import InGame from "./InGame";
 import GameSetting from "./GameSetting";
+import {SpriteType} from "./CoupleEntity";
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -32,7 +34,11 @@ export default class NewClass extends cc.Component {
         // this.item.height = randHeight;
 
         let entityList = this.canvasNode.getComponent(InGame).gameSetting.getComponent(GameSetting).entityList;
-        let randEntity = Math.floor(Math.random() * entityList.length);
+        let randEntity: number;
+        do {
+            randEntity = Math.floor(Math.random() * entityList.length);
+        } while (randEntity == SpriteType.MotoBike as number);
+        
         this.item.getComponent(cc.Sprite).spriteFrame = entityList[randEntity].getComponent(cc.Sprite).spriteFrame.clone();
         this.item.setContentSize(entityList[randEntity].getContentSize());
 
@@ -48,5 +54,11 @@ export default class NewClass extends cc.Component {
 
     update (dt) {
         //this.node.y -= 100 * dt;
+
+        //destroy
+        if (this.node.y < this.canvasNode.getComponent(InGame).player.y - this.canvasNode.height) {
+            this.canvasNode.getComponent(InGame).entityList.splice(this.canvasNode.getComponent(InGame).entityList.indexOf(this.node), 1);
+            this.node.destroy();
+        }
     }
 }

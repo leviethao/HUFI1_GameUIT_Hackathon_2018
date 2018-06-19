@@ -55,6 +55,9 @@ export default class NewClass extends cc.Component {
     @property({url: cc.AudioClip})
     backgroundAudio: cc.AudioClip = null;
 
+    @property(cc.Node)
+    backgound: cc.Node = null;
+
 
     prevEntityPosY: number;
     entityList: cc.Node[] = [];
@@ -66,6 +69,7 @@ export default class NewClass extends cc.Component {
     isStarted: boolean = false;
     backgroundAudioID:number = 0;
     isSpawnAble: boolean = true;
+    isChallenge1Active: boolean = false;
 
 
 
@@ -95,11 +99,12 @@ export default class NewClass extends cc.Component {
 
         this.levelUp();
 
-        if (this.level > this.oldLevel && this.level == 5) {
+        if (this.level > this.oldLevel && this.level % 12 == 0) {
             this.challenge1();
             this.oldLevel = this.level;
             this.isSpawnAble = false;
         }
+
     }
 
     spawnEntity (yPos: number, entityType?: number) : cc.Node {
@@ -121,6 +126,7 @@ export default class NewClass extends cc.Component {
 
         let entity = cc.instantiate(entityPrefab);
         this.node.addChild(entity);
+        this.entityList.push(entity);
         entity.getComponent(entityComponent).canvasNode = this.node;
         entity.getComponent(entityComponent).init();
 
@@ -265,5 +271,16 @@ export default class NewClass extends cc.Component {
         let coupleEntity = this.spawnEntity(this.prevEntityPosY + this.node.height * 0.7, 2);
         coupleEntity.getComponent(CoupleEntity).changeSprite(SpriteType.MotoBike);
         coupleEntity.getComponent(CoupleEntity).isChallenge1Active = true;
+    }
+
+    decreaseCoordinate () {
+        let yLimit = 1000;
+        if (this.player.y >= yLimit) {
+            this.player.y -= yLimit;
+            this.backgound.y -= yLimit;
+            for (let entity of this.entityList) {
+                entity.y -= yLimit;
+            }
+        }
     }
 }

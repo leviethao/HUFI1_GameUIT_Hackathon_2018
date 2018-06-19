@@ -1590,7 +1590,7 @@
       }
     ],
     "levelFactor": 3,
-    "moveSpeedFactor": 50,
+    "moveSpeedFactor": 20,
     "scoreFactor": 1000
   },
   {
@@ -3048,6 +3048,9 @@
     },
     "backgroundAudio": {
       "__uuid__": "12f62fa6-e35f-42d2-a09e-36be567f8ed7"
+    },
+    "backgound": {
+      "__id__": 3
     }
   }
 ]

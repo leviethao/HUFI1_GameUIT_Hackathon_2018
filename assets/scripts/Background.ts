@@ -69,19 +69,23 @@ export default class NewClass extends cc.Component {
 
     }
 
-    update (dt) {
+    update (dt) { console.log(this.canvas.node.getComponent(InGame).isChallenge1Active);
         if (this.camera.y - this.prevCameraPosY >= this.items[0].height) {
             this.scroll();
             this.prevCameraPosY += this.items[0].height;
             
             //this.changeBackground(this.item1);
             if (this.canvas.node.getComponent(InGame).level > this.oldLevel) {
-                if (this.canvas.node.getComponent(InGame).level == 3) {
-                    this.isChallengeHemActive = true;
+                if (this.canvas.node.getComponent(InGame).level % 7 == 0) {
+                    if (this.canvas.node.getComponent(InGame).isChallenge1Active == false) {
+                        this.isChallengeHemActive = true;
+                    }
                 }
 
-                if (this.canvas.node.getComponent(InGame).level % 5 == 0) {
-                    this.isChallengeNgaTuActive = true;
+                if (this.canvas.node.getComponent(InGame).level % 3 == 0) {
+                    if (this.isChallengeHemActive == false) {
+                        this.isChallengeNgaTuActive = true;
+                    }
                 }
 
                 this.oldLevel = this.canvas.node.getComponent(InGame).level;

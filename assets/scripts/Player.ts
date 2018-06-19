@@ -11,6 +11,7 @@
 const {ccclass, property} = cc._decorator;
 import InGame from "./InGame";
 import GameSetting from "./GameSetting";
+import Camera from "./Camera";
 
 enum ShrinkStatus {
     None,
@@ -85,9 +86,10 @@ export default class NewClass extends cc.Component {
     }
 
     onTouchEnd () {
-        this.shrinkStatus = ShrinkStatus.ShrinkBack;
-
-        this.canvas.node.getComponent(InGame).disableTutorial();
+        if (this.canvas.node.getComponent(InGame).camera.getComponent(Camera).isZoomOnStartGameComplete) {
+            this.shrinkStatus = ShrinkStatus.ShrinkBack;
+            this.canvas.node.getComponent(InGame).disableTutorial();
+        }
     }
 
     grownUp (dt: number) {

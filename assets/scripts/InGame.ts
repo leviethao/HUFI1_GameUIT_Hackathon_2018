@@ -16,6 +16,7 @@ import Player from "./Player";
 import GameSetting from "./GameSetting";
 import PlayerItem from "./PlayerItem";
 import {SpriteType} from "./CoupleEntity";
+import Camera from "./Camera"
 
 
 @ccclass
@@ -70,6 +71,7 @@ export default class NewClass extends cc.Component {
     backgroundAudioID:number = 0;
     isSpawnAble: boolean = true;
     isChallenge1Active: boolean = false;
+    isTutorialBegan: boolean = false;
 
 
 
@@ -83,11 +85,16 @@ export default class NewClass extends cc.Component {
     }
 
     start () {
-    this.spawnEntity(this.node.height * 0.7);
-        this.enableTutorial();
+        this.spawnEntity(this.node.height * 0.7);
+        this.tutorialNode.active = false;
     }
 
     update (dt) {
+
+        if (this.camera.getComponent(Camera).isZoomOnStartGameComplete && this.isTutorialBegan == false) {
+            this.enableTutorial();
+            this.isTutorialBegan = true;
+        }
 
         this.gainScore();
 
@@ -257,6 +264,7 @@ export default class NewClass extends cc.Component {
 
     enableTutorial () {
         if (!this.isStarted) {
+            this.tutorialNode.active = true;
             this.tutorialNode.runAction(cc.repeatForever(cc.sequence(cc.scaleTo(0.5, 1.1), cc.scaleTo(0.5, 1))));
         }
     }

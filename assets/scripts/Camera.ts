@@ -10,7 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 const ZOOM_ON_START_TIME = 2;
-const ZOOM_ON_START_DELAY = 2;
+const ZOOM_ON_START_DELAY = 0.5;
 const ZOOM_ON_START_BEGIN = 2;
 
 @ccclass
@@ -66,5 +66,9 @@ export default class NewClass extends cc.Component {
     
             this.timer += dt;
         }
+    }
+
+    zoomAndVibrate () {
+        
     }
 }

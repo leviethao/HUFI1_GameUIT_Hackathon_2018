@@ -17,7 +17,9 @@ import GameSetting from "./GameSetting";
 import PlayerItem from "./PlayerItem";
 import {SpriteType} from "./CoupleEntity";
 import Camera from "./Camera"
-
+import PrefabSlow from "./PrefabSlow";
+import PrefabDoublePoint from "./PrefabDoublePoint";
+import PrefabImmortal from "./PrefabImmortal";
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -59,8 +61,23 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     backgound: cc.Node = null;
 
+    @property(cc.Prefab)
+    PrefabSlow: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    PrefabDoublePoint: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    PrefabImmortal: cc.Prefab = null
+
+    @property(cc.Label)
+    Delayx2: cc.Label = null;
+
+    @property(cc.Label)
+    Delaybt: cc.Label = null;
 
     prevEntityPosY: number;
+    prevEntityPos: cc.Vec2;
     entityList: cc.Node[] = [];
     oldLevel: number = 0;
     level: number = 0;
@@ -72,7 +89,8 @@ export default class NewClass extends cc.Component {
     isSpawnAble: boolean = true;
     isChallenge1Active: boolean = false;
     isTutorialBegan: boolean = false;
-
+    delay: number;
+    flagEntity: number;
 
 
     // LIFE-CYCLE CALLBACKS:
@@ -87,10 +105,21 @@ export default class NewClass extends cc.Component {
     start () {
         this.spawnEntity(this.node.height * 0.7);
         this.tutorialNode.active = false;
+        this.delay=0;
+        this.Delaybt.enabled=false;
+        this.Delayx2.enabled=false;
     }
 
     update (dt) {
-
+        this.delay=this.delay+dt;
+        if((this.prevEntityPosY - this.camera.y <= this.node.height / 2))
+        {
+            if(this.delay>=3)
+            {
+            this.delay=0;
+            this.spawmCN();
+            }
+        }
         if (this.camera.getComponent(Camera).isZoomOnStartGameComplete && this.isTutorialBegan == false) {
             this.enableTutorial();
             this.isTutorialBegan = true;
@@ -103,7 +132,8 @@ export default class NewClass extends cc.Component {
                 this.spawnEntity(this.prevEntityPosY + this.node.height / 2);
             }
         }
-
+        this.Delaybt.string=Math.floor(this.player.getComponent(Player).delaybt).toString();
+        this.Delayx2.string=Math.floor(this.player.getComponent(Player).delayx2).toString();
         this.levelUp();
 
         if (this.level > this.oldLevel && this.level % 12 == 0) {
@@ -113,7 +143,34 @@ export default class NewClass extends cc.Component {
         }
 
     }
+    spawmCN()
+    {
+        let random=Math.round(cc.random0To1()*2);
+        let CN: cc.Node;  
+        if(random==0)
+        {
+            CN = cc.instantiate(this.PrefabDoublePoint);
+            CN.getComponent(PrefabDoublePoint).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabDoublePoint).init();
+            this.node.addChild(CN);
+        }      
+        else if(random==1)
+        {
+            CN = cc.instantiate(this.PrefabImmortal);
+            CN.getComponent(PrefabImmortal).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabImmortal).init();
+            this.node.addChild(CN);
+        }
+        else if(random==2)
+        {
+            CN = cc.instantiate(this.PrefabSlow);
+            CN.getComponent(PrefabSlow).canvas = this.node.getComponent(cc.Canvas);
+            CN.getComponent(PrefabSlow).init();
+            this.node.addChild(CN);
+        }
 
+        this.camera.getComponent(cc.Camera).addTarget(CN);
+    }
     spawnEntity (yPos: number, entityType?: number) : cc.Node {
         let entityPrefab: cc.Prefab = null;
         let count = 2;

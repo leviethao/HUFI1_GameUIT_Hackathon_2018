@@ -26,6 +26,7 @@ export default class NewClass extends cc.Component {
 
     flag: boolean = false;
 
+    speed:number;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
@@ -34,7 +35,7 @@ export default class NewClass extends cc.Component {
     }
 
     start () {
-
+        this.speed=this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed;
     }
 
     // update (dt) {}
@@ -46,16 +47,54 @@ export default class NewClass extends cc.Component {
                 //cc.audioEngine.play(this.sound, false, 1);
             } break;
             case 1: {//right player
+                if(this.canvas.node.getComponent(InGame).player.getComponent(Player).statusbt==1)
+                {
+                }
+                else
+                {
                 this.flag = true;
                 cc.audioEngine.play(this.sound, false, 1);
                 let animState = this.node.parent.getChildByName("anim").active = true;
                 this.node.parent.getComponent(Player).moveSpeed = 0;
                 this.canvas.node.getComponent(InGame).gameOver();
+                }
             } break;
             case 2: { //entity
+                if(this.canvas.node.getComponent(InGame).player.getComponent(Player).statusbt==1)
+                {
+                }
+                else
+                {
                 cc.audioEngine.play(this.hug, false, 1);
                 this.node.parent.getComponent(Player).moveSpeed = 0;
                 this.canvas.node.getComponent(InGame).gameOver();
+                }
+            } break; 
+            case 10:
+            {
+                this.canvas.node.getComponent(InGame).player.getComponent(Player).statusx2=1;
+                this.canvas.node.getComponent(InGame).player.getComponent(Player).delayx2=0;
+                if(this.canvas.node.getComponent(InGame).Delaybt.enabled==true)
+                {
+                    this.canvas.node.getComponent(InGame).Delaybt.enabled=false;
+                }
+                this.canvas.node.getComponent(InGame).Delayx2.enabled=true;
+            }
+            case 11:
+            {
+                this.canvas.node.getComponent(InGame).player.getComponent(Player).statusbt=1;
+                this.canvas.node.getComponent(InGame).player.getComponent(Player).delaybt=0;
+                if(this.canvas.node.getComponent(InGame).Delayx2.enabled==true)
+                {
+                    this.canvas.node.getComponent(InGame).Delayx2.enabled=false;
+                }
+                this.canvas.node.getComponent(InGame).Delaybt.enabled=true;
+                
+            }break;
+            case 12: 
+            {  
+                this.canvas.node.getComponent(InGame).player.getComponent(Player).moveSpeed-=100;               
+                
             } break;
         }
     }

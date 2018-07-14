@@ -34,6 +34,10 @@ export default class NewClass extends cc.Component {
     moveSpeed: number = 0;
     animFlag1: boolean = false;
     animFlag2: boolean = false;
+    delaybt: number = 0;
+    delayx2: number = 0;
+    statusbt:number=0;
+    statusx2:number=0;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
@@ -75,6 +79,18 @@ export default class NewClass extends cc.Component {
         this.shrinkBack(dt);
         
         this.node.y += this.moveSpeed * dt;
+        this.delaybt+=dt;
+        this.delayx2+=dt;
+        if(this.delaybt>5)
+        {
+            this.statusbt=0;
+            this.canvas.node.getComponent(InGame).Delaybt.enabled=false;
+        }
+        if(this.delayx2>5)
+        {
+            this.statusx2=0;
+            this.canvas.node.getComponent(InGame).Delayx2.enabled=false
+        }
     }
 
     onTouchStart () {
